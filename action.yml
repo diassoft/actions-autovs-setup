@@ -1,5 +1,10 @@
 name: 'Setup Diassoft Autovs'
 description: 'Setup Diassoft Automatic Versioning System'
+inputs:
+  GITHUB_TOKEN:
+    description: 'The token to access the GITHUB account'
+    required: true
+    default: ''
 runs:
   using: 'node16'
   main: 'src/setup.js'
