@@ -6,7 +6,6 @@ inputs:
     required: true
     default: ''
 
-
 #runs:
 #  using: 'node16'
 #  main: 'src/setup.js'

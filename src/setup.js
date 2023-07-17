@@ -66,25 +66,46 @@ async function run() {
     console.log(`Repository owner is ${context.repo.owner}`);
     console.log(`Repository name is ${context.repo.repo}`);
 
-    // Check VS_CUR_MAJOR
-    var current_variable = await octokit.rest.actions.getRepoVariable({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      name: 'VS_CUR_MAJOR'
-    });
-
-    console.log(`Current Variable is ${current_variable.data.value}`);
-  
-    /*oktokit.rest.actions.createRepoVariable({
-      owner,
-      repo,
-      name,
-      value
-    });*/
-    
+    // Setup VS_CUR_MAJOR
+    await SetupVariable('VS_CUR_MAJOR', '1');
+    await SetupVariable('VS_CUR_MINOR', '0');
+      
   } catch (error) {
     core.setFailed(error.message);
   }
+
+}
+
+// SetupVariable
+// - variableName (the name of the variable)
+// - variableInitialValue (the initial value i case the variable does not exists)
+async function SetupVariable(variableName, variableInitialValue)
+{
+
+    // Look for variable in repository
+    try{
+
+      var current_variable = await octokit.rest.actions.getRepoVariable({
+        owner: context.repo.owner,
+        repo: context.repo.repo,
+        name: variableName
+      });
+  
+      // Variable was found, therefore, nothing needs to be done. 
+      return;
+
+    } catch (err1)
+    {
+       console.log(`Unable to locate variable '${variableName}' in repository '${context.repo.repo}'`)
+    }
+
+    // Variable was not found, it must be created
+    await octokit.rest.actions.createRepoVariable({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      name: variableName,
+      value: variableInitialValue
+    });
 
 }
 
