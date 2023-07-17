@@ -2,7 +2,17 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const { context } = require('@actions/github');
 const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
-const octokit = github.getOctokit(GITHUB_TOKEN);
+
+// When using actions/github
+//const octokit = github.getOctokit(GITHUB_TOKEN);
+
+// When using octokit/rest
+const { Octokit } = require("@octokit/rest");
+const octokit = new Octokit({
+
+  auth: GITHUB_TOKEN
+
+});
 
 try {
   // This script will create new labels and variables in the repository
