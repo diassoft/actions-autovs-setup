@@ -1,6 +1,8 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const octokit = new Octokit();
+const { context } = require('@actions/github');
+const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
+const octokit = github.getOctokit(GITHUB_TOKEN);
 
 try {
   // This script will create new labels and variables in the repository
@@ -35,18 +37,19 @@ try {
   // ********************************************************************
 
   octokit.rest.actions.getRepoVariable({
-    github.repository_owner,
-    github.repository,
-    'VS_CUR_MAJOR'
+    owner: context.repository_owner,
+    repo: context.repo,
+    name: 'VS_CUR_MAJOR'
   });
 
-  oktokit.rest.actions.createRepoVariable({
+  /*oktokit.rest.actions.createRepoVariable({
     owner,
     repo,
     name,
     value
-  });
+  });*/
 
+  console.log(`Repository owner is ${context.repo}`);
 
   console.log(`The event payload: ${payload}`);
 } catch (error) {
