@@ -5,6 +5,20 @@ inputs:
     description: 'The token to access the GITHUB account'
     required: true
     default: ''
+
+
+#runs:
+#  using: 'node16'
+#  main: 'src/setup.js'
+
 runs:
-  using: 'node18'
-  main: 'src/setup.js'
+  using: composite
+  steps:
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    - name: Action
+      id: action
+      run: node ${{ github.action_path }}/src/setup.js
+      shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
