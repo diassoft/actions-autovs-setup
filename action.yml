@@ -1,0 +1,5 @@
+name: 'Setup Diassoft Autovs'
+description: 'Setup Diassoft Automatic Versioning System'
+runs:
+  using: 'node16'
+  main: 'src/setup.js'
