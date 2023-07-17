@@ -23,7 +23,7 @@ const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN');
 const { Octokit } = require("@octokit/rest");
 const octokit = new Octokit({
 
-  auth: GITHUB_TOKEN,
+  auth: github.token,
   userAgent: 'diassoft-actions-autovs-setup',
   baseUrl: 'https://api.github.com',
 
