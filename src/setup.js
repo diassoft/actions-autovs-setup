@@ -63,12 +63,17 @@ async function run() {
     // - VS_GLB_CUR_VERSION: The description of the current version (v1.2.0-alpha.1.000104)
     // ********************************************************************
   
+    console.log(`Repository owner is ${context.repo.owner}`);
+    console.log(`Repository name is ${context.repo.repo}`);
+
     // Check VS_CUR_MAJOR
-    var current_variable = octokit.rest.actions.getRepoVariable({
+    var current_variable = await octokit.rest.actions.getRepoVariable({
       owner: context.repo.owner,
       repo: context.repo.repo,
       name: 'VS_CUR_MAJOR'
     });
+
+    console.log(`Current Variable is ${current_variable.data.value}`);
   
     /*oktokit.rest.actions.createRepoVariable({
       owner,
@@ -76,10 +81,7 @@ async function run() {
       name,
       value
     });*/
-  
-    console.log(`Repository owner is ${context.repo.owner}`);
-    console.log(`Repository name is ${context.repo.repo}`);
-  
+    
   } catch (error) {
     core.setFailed(error.message);
   }
